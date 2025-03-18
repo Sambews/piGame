@@ -1,18 +1,24 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <string>
 
 class GameObject{
 	protected:
-		int x, y;
-		SDL_Renderer* renderer;
-	
+		int x, y, height, width;
+		SDL_Renderer* renderer = nullptr;
+		char* imagePath = nullptr;
+		SDL_Rect* rect = new SDL_Rect{0, 0, 0, 0};
+		SDL_Surface* surf = nullptr;
+		SDL_Texture* texture = nullptr;
+
 	public:
 		//Constructors
-		GameObject(){x = 0; y = 0;}
-		GameObject(int x, int y){this->x = x; this->y = y;}
-		GameObject(int x, int y, SDL_Renderer* r){this->x = x; this->y = y; renderer = r;}
-		~GameObject(){}
+		GameObject();
+		GameObject(int, int, int, int);
+		GameObject(int, int, int, int, SDL_Renderer*, std::string);
+		~GameObject();
 
 		//Mutators and accessors
 		int getX(){return x;}
@@ -21,8 +27,18 @@ class GameObject{
 		int getY(){return y;}
 		void setY(int y){this->y = y;}
 
+		char* getImage(){return imagePath;}
+		void setImage(char*);
+
 		SDL_Renderer* getRenderer(){return renderer;}
 		void setRenderer(SDL_Renderer* r){renderer = r;}
+
+		SDL_Texture* getTexture(){return texture;}
+		void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
+		
+		void draw();
+		void print();
+
 };
 
 

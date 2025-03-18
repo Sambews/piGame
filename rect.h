@@ -2,27 +2,27 @@
 #define RECTANGLE_H
 
 #include <SDL2/SDL.h>
-#include "gameObject.h"
 
-class Rectangle : public GameObject {
+class Rectangle {
 private:
-	int height, width;
+	int x, y, height, width;
 	SDL_Rect* rect = new SDL_Rect;
+	SDL_Renderer* renderer;
 	int* color = new int;
 
 public:
 	//Constructors and destructors
 	Rectangle();
 	Rectangle(int, int, int, int, int*);
-	Rectangle(int x, int y, int height, int width, SDL_Renderer* renderer, int color[4]);
+	Rectangle(int, int, int, int, SDL_Renderer*, int*);
 	~Rectangle();
 
 	//Mutators and accessors 
-//	int getX(){return x;}
-//	void setX(int n){x = n;}
+	int getX(){return x;}
+	void setX(int n){x = n;}
 	
-//	int getY(){return y;}
-//	void setY(int n){y = n;}
+	int getY(){return y;}
+	void setY(int n){y = n;}
 
 	int getHeight(){return height;}
 	void setHeight(int n){height = n;}
@@ -30,8 +30,8 @@ public:
 	int getWidth(){return width;}
 	void setWidth(int n){width = n;}
 
-//	SDL_Renderer*  getRenderer(){return renderer;}
-//	void setRenderer(SDL_Renderer* r){renderer = r;}
+	SDL_Renderer* getRenderer(){return renderer;}
+	void setRenderer(SDL_Renderer* r){renderer = r;}
 
 	int* getColor(){return color;}
 	void setColor(int* c){color = c;}
