@@ -28,13 +28,15 @@ class GameObject{
 		void setY(int y){this->y = y;}
 
 		char* getImage(){return imagePath;}
-		void setImage(char*);
+		void setImage(std::string);
 
 		SDL_Renderer* getRenderer(){return renderer;}
 		void setRenderer(SDL_Renderer* r){renderer = r;}
 
 		SDL_Texture* getTexture(){return texture;}
 		void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
+
+		SDL_Rect* getRect(){return rect;}
 		
 		void draw();
 		void print();

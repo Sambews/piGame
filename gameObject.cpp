@@ -30,9 +30,9 @@ GameObject::~GameObject(){
 	SDL_FreeSurface(surf);
 }
 
-void GameObject::setImage(char* path){
-	imagePath = path;
-	surf = IMG_Load(path);
+void GameObject::setImage(std::string path){
+	imagePath = &path[0];
+	surf = IMG_Load(imagePath);
 	updateTexture();
 }
 
