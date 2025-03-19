@@ -32,12 +32,11 @@ int main(){
 	SDL_Event e;
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
-	//Declaring variables
 
 	//Creating objects
 	Rectangle enemy(50, 50, 20, 20, renderer, red);
-	Rectangle wall(300, 300, 30, 10, renderer, grey);
 	GameObject MC(150, 150, 32, 32, renderer, "./images/dressCharacter.png");
+	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
 
 	//Main game loop
 	while(running){
@@ -75,7 +74,14 @@ int main(){
 		//Update the red rectangle's position based off of arrow keys
 		enemy.setY(enemy.getY() - ((keys[SDL_SCANCODE_UP]*5) - (keys[SDL_SCANCODE_DOWN]*5)));
 		enemy.setX(enemy.getX() + ((keys[SDL_SCANCODE_RIGHT]*5) - (keys[SDL_SCANCODE_LEFT]*5)));
-		
+	
+		//Collision detection. Currently does not work
+		while(SDL_HasIntersection(MC.getRect(), wall.getRect())){
+			MC.setY(MC.getY() - (yInput / PLAYERSPEED));
+			MC.setX(MC.getX() - (xInput / PLAYERSPEED));
+		}
+
+
 		//Fill the screen with black
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
