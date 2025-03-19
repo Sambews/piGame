@@ -6,10 +6,14 @@
 
 class GameObject{
 	protected:
-		int x, y, height, width;
+		//Member variables
+		int x, y, height, width; //Rectangle object associated with gameObject, used for collision and as target for loading image
+		SDL_Rect* rect = new SDL_Rect{0, 0, 0, 0};
+		
 		SDL_Renderer* renderer = nullptr;
 		char* imagePath = nullptr;
-		SDL_Rect* rect = new SDL_Rect{0, 0, 0, 0};
+
+		//My grasp on surfaces and textures is weak, but youtube tutorials say this is how you load an object
 		SDL_Surface* surf = nullptr;
 		SDL_Texture* texture = nullptr;
 
@@ -38,6 +42,7 @@ class GameObject{
 
 		SDL_Rect* getRect(){return rect;}
 		
+		//Functions
 		void draw();
 		void print();
 
