@@ -3,6 +3,9 @@
 
 #include <SDL2/SDL.h>
 
+
+//This class isn't going to be useful, since rect objects are built into the gameObject class. This is just for testing things. 
+
 class Rectangle {
 private:
 	int x, y, height, width;
