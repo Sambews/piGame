@@ -37,9 +37,16 @@ int main(){
 	//Creating objects
 	std::vector<GameObject*> solidObjects;
 	Rectangle enemy(50, 50, 20, 20, renderer, red);
-	GameObject MC(150, 150, 32, 32, renderer, "./images/dressCharacter.png");
+	GameObject MC(150, 150, 38, 58, renderer, "./images/dressCharacter.png");
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
 	solidObjects.push_back(&wall);
+
+
+	int frameCount = 0;
+	int walkCount = 1;
+	bool right = true;
+	std::string walkImg = "./images/dressCharacterWalk1.png";
+
 
 	//Main game loop
 	while(running){
@@ -62,13 +69,34 @@ int main(){
 		int xInput = (keys[SDL_SCANCODE_D] - keys[SDL_SCANCODE_A]) * PLAYERSPEED;
 		int yInput = (keys[SDL_SCANCODE_S] - keys[SDL_SCANCODE_W]) * PLAYERSPEED;
 
+
 		//Turns character left and right
-		if(xInput > 0){
-			MC.setImage("./images/dressCharacter.png");
+		if(xInput == 0){
+			frameCount = 0;
+			walkCount = 1;
+			if(right){
+				MC.setImage("./images/dressCharacter.png");
+			} else {
+				MC.setImage("./images/dressCharacterL.png");
+			}
+		} else if(xInput > 0){
+			
+			if(frameCount == 7){
+				std::cout << "Frame count has looped. Walk count is " << walkCount << std::endl;
+				frameCount = 0;
+				
+				if(walkCount == 8){
+					walkCount = 1;
+				} else {
+					walkCount++;
+				}
+				walkImg = "./images/dressCharacterWalk" + std::to_string(walkCount) + ".png";
+				MC.setImage(walkImg);
+			} else {frameCount++;}
 		}
-		if(xInput < 0){
-			MC.setImage("./images/dressCharacterL.png");
-		}
+
+
+
 	
 		//Update MC's position, with added collision detection
 		MC.setY(MC.getY() + yInput);
@@ -97,11 +125,7 @@ int main(){
 	
 		GameObject::drawAll();
 
-		/*
 		enemy.draw();
-		wall.draw();
-		MC.draw();
-	        */
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps
 		SDL_RenderPresent(renderer);
