@@ -8,8 +8,7 @@
 class GameObject{
 	protected:
 		//Member variables
-		int x, y, height, width; //Rectangle object associated with gameObject, used for collision and as target for loading image
-		SDL_Rect* rect = new SDL_Rect{0, 0, 0, 0};
+		SDL_Rect* rect = new SDL_Rect{0, 0, 32, 32};
 		
 		SDL_Renderer* renderer = nullptr;
 		char* imagePath = nullptr;
@@ -28,11 +27,17 @@ class GameObject{
 		~GameObject();
 
 		//Mutators and accessors
-		int getX(){return x;}
-		void setX(int x){this->x = x;}
+		int getX(){return rect->x;}
+		void setX(int x){rect->x = x;}
 
-		int getY(){return y;}
-		void setY(int y){this->y = y;}
+		int getY(){return rect->y;}
+		void setY(int y){rect->y = y;}
+		
+		int getWidth(){return rect->w;}
+		void setWidth(int w){rect->w = w;}
+
+		int getHeight(){return rect->h;}
+		void setHeight(int h){rect->h = h;}
 
 		char* getImage(){return imagePath;}
 		void setImage(std::string);
@@ -47,7 +52,7 @@ class GameObject{
 		
 		//Functions
 		void draw();
-		void drawAll();
+		static void drawAll();
 		void print();
 
 };
