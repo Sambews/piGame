@@ -3,15 +3,21 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <vector>
 
 class GameObject{
 	protected:
-		int x, y, height, width;
+		//Member variables
+		SDL_Rect* rect = new SDL_Rect{0, 0, 32, 32};
+		
 		SDL_Renderer* renderer = nullptr;
 		char* imagePath = nullptr;
-		SDL_Rect* rect = new SDL_Rect{0, 0, 0, 0};
+
+		//My grasp on surfaces and textures is weak, but youtube tutorials say this is how you load an object
 		SDL_Surface* surf = nullptr;
 		SDL_Texture* texture = nullptr;
+
+		static std::vector<GameObject*> gameObjectList;
 
 	public:
 		//Constructors
@@ -21,22 +27,32 @@ class GameObject{
 		~GameObject();
 
 		//Mutators and accessors
-		int getX(){return x;}
-		void setX(int x){this->x = x;}
+		int getX(){return rect->x;}
+		void setX(int x){rect->x = x;}
 
-		int getY(){return y;}
-		void setY(int y){this->y = y;}
+		int getY(){return rect->y;}
+		void setY(int y){rect->y = y;}
+		
+		int getWidth(){return rect->w;}
+		void setWidth(int w){rect->w = w;}
+
+		int getHeight(){return rect->h;}
+		void setHeight(int h){rect->h = h;}
 
 		char* getImage(){return imagePath;}
-		void setImage(char*);
+		void setImage(std::string);
 
 		SDL_Renderer* getRenderer(){return renderer;}
 		void setRenderer(SDL_Renderer* r){renderer = r;}
 
 		SDL_Texture* getTexture(){return texture;}
 		void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
+
+		SDL_Rect* getRect(){return rect;}
 		
+		//Functions
 		void draw();
+		static void drawAll();
 		void print();
 
 };
