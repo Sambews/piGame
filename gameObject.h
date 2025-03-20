@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <vector>
 
 class GameObject{
 	protected:
@@ -16,6 +17,8 @@ class GameObject{
 		//My grasp on surfaces and textures is weak, but youtube tutorials say this is how you load an object
 		SDL_Surface* surf = nullptr;
 		SDL_Texture* texture = nullptr;
+
+		static std::vector<GameObject*> gameObjectList;
 
 	public:
 		//Constructors
@@ -44,6 +47,7 @@ class GameObject{
 		
 		//Functions
 		void draw();
+		void drawAll();
 		void print();
 
 };

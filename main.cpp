@@ -1,8 +1,7 @@
-//Hello world
-
 //Native(?) c++ libraries
 #include <iostream>
 #include <string>
+#include <vector>
 //Third party
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,8 +10,10 @@
 #include "rect.cpp"
 
 
+std::vector<GameObject*> GameObject::gameObjectList;
+
 int main(){
-	//Declaring variables. It's a common practice to name constant variables in all caps
+	//Declaring variables
 	bool running = true;
 	const int WINDOWWIDTH = 1080;
 	const int WINDOWHEIGHT = 720;

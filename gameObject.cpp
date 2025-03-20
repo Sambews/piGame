@@ -7,6 +7,7 @@ GameObject::GameObject(){
 	y = 0;
 	width = 10;
 	height = 10;
+	GameObject::gameObjectList.push_back(this);
 }
 
 GameObject::GameObject(int x, int y, int width, int height){
@@ -14,6 +15,7 @@ GameObject::GameObject(int x, int y, int width, int height){
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	GameObject::gameObjectList.push_back(this);
 }
 
 GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std::string path){
@@ -25,6 +27,7 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std
 	imagePath = &path[0];
 	surf = IMG_Load(imagePath);
 	texture = SDL_CreateTextureFromSurface(renderer, surf);
+	GameObject::gameObjectList.push_back(this);
 }
 //Destructor
 GameObject::~GameObject(){
@@ -48,4 +51,10 @@ void GameObject::draw(){
 	*rect = {x, y, width, height};
 	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	SDL_RenderCopy(renderer, texture, NULL, rect);
+}
+
+void GameObject::drawAll(){
+	for(GameObject* g : GameObject::gameObjectList){
+		g->draw();
+	}
 }
