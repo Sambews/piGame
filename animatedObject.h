@@ -13,11 +13,14 @@ class AnimatedObject : public gameObject {
     private:
         vector<vector<location>> animations;
         SDL_Surface spritesheet = nullptr;
+	SDL_Rect image = nullptr;
+	int columnWidth;
+	int rowWidth;	
 
     public:
-        AnimatedObject(string, int, int);
+        AnimatedObject(int, int, int, int, string, int, int);
         selectSprite(int, int);
-
+	draw(SDL_Surface*, SDL_Rect*);
 
 }
 
