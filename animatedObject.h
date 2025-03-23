@@ -12,10 +12,12 @@ struct location {
 class AnimatedObject : public gameObject {
     private:
         vector<vector<location>> animations;
-        SDL_Surface spritesheet = nullptr;
+        SDL_Surface* spritesheet = nullptr;
+        SDL_Rect* imageSelect = nullptr;
 
     public:
-        AnimatedObject(string, int, int);
+        AnimatedObject(std::string, int, int);
+        AnimatedObject(int, int, int, int, std::string, int, int);
         selectSprite(int, int);
 
 
