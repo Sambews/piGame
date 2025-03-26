@@ -42,12 +42,15 @@ int main(){
 
 	AnimatedObject test(200, 200, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
 	test.selectSprite(1, 1);
+	test.selectSprite(3, 2);
+	test.selectSprite(5, 3);
 
 	solidObjects.push_back(&wall);
 
-
 	int frameCount = 0;
+	int frameCount2 = 0;
 	int walkCount = 1;
+	int walkCount2 = 1;
 	bool right = true;
 	std::string walkImg = "./images/dressCharacterWalk1.png";
 
@@ -75,7 +78,7 @@ int main(){
 
 		//Turns character left and right
 		if(xInput == 0){
-			frameCount = 0;
+			frameCount2 = 0;
 			walkCount = 1;
 			if(right){
 				MC.setImage("./images/dressCharacter.png");
@@ -83,9 +86,8 @@ int main(){
 				MC.setImage("./images/dressCharacterL.png");
 			}
 		} else if(xInput > 0){
-			
-			if(frameCount == 7){
-				frameCount = 0;
+			if(frameCount2 == 7){
+				frameCount2 = 0;
 				
 				if(walkCount == 8){
 					walkCount = 1;
@@ -94,8 +96,21 @@ int main(){
 				}
 				walkImg = "./images/dressCharacterWalk" + std::to_string(walkCount) + ".png";
 				MC.setImage(walkImg);
-			} else {frameCount++;}
+			} else {frameCount2++;}
 		}
+
+
+
+		if(frameCount == 7){
+			frameCount = 0;
+				
+			if(walkCount2 == 8){
+				walkCount2 = 1;
+			} else {
+				walkCount2++;
+			}
+			test.selectSprite(walkCount2-1, 3);
+		} else {frameCount++;}
 
 	
 		//Update MC's position, with added collision detection

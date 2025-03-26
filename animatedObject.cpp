@@ -12,7 +12,7 @@ AnimatedObject::AnimatedObject(int x, int y, int width, int height, SDL_Renderer
 	SDL_GetTextureSize(spritesheet, &sheetSize.x, &sheetSize.y);
 	imageSelect->w = sheetSize.x / cNum;
 	imageSelect->h = sheetSize.y / rNum;
-	std::cout << "Width, height: " << imageSelect->w << ", " << imageSelect->h << '\n';
+	//std::cout << "Width, height: " << imageSelect->w << ", " << imageSelect->h << '\n';
 }
 
 AnimatedObject::~AnimatedObject(){
@@ -21,10 +21,9 @@ AnimatedObject::~AnimatedObject(){
 
 void AnimatedObject::selectSprite(int x, int y){
 	imageSelect->x = x * imageSelect->w;
-	imageSelect->y = y * imageSelect->y;
-	std::cout << "New x: " << imageSelect->x << '\n';
-	std::cout << "New y: " << imageSelect->y << '\n';
-	//SDL_BlitSurface(spritesheet, imageSelect, surf, NULL);
+	imageSelect->y = y * imageSelect->h;
+	//std::cout << "New x: " << imageSelect->x << '\n';
+	//std::cout << "New y: " << imageSelect->y << '\n';
 }
 
 void AnimatedObject::draw(){
