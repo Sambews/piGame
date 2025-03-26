@@ -41,7 +41,7 @@ int main(){
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
 
 	AnimatedObject test(200, 200, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
-	test.selectSprite(0, 0);
+	test.selectSprite(1, 1);
 
 	solidObjects.push_back(&wall);
 
@@ -125,7 +125,7 @@ int main(){
 		//Draw the various objects to the screen
 	
 		GameObject::drawAll();
-		//test.draw();
+		test.draw();
 		enemy.draw();
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps

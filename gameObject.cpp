@@ -33,6 +33,7 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std
 	renderer = r;
 	imagePath = &path[0];
 	surf = IMG_Load(imagePath);
+	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	GameObject::gameObjectList.push_back(this);
 }
 //Destructor

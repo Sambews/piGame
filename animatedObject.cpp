@@ -2,7 +2,7 @@
 #include <iostream>
 
 AnimatedObject::AnimatedObject(int x, int y, int width, int height, SDL_Renderer* r, std::string path, int rNum, int cNum)
-: GameObject(x, y, width, height, renderer){
+: GameObject(x, y, width, height, r){
 	crying = IMG_Load(&path[0]);
 	spritesheet = SDL_CreateTextureFromSurface(renderer, crying);   
 	if(spritesheet == NULL){
@@ -12,6 +12,7 @@ AnimatedObject::AnimatedObject(int x, int y, int width, int height, SDL_Renderer
 	SDL_GetTextureSize(spritesheet, &sheetSize.x, &sheetSize.y);
 	imageSelect->w = sheetSize.x / cNum;
 	imageSelect->h = sheetSize.y / rNum;
+	std::cout << "Width, height: " << imageSelect->w << ", " << imageSelect->h << '\n';
 }
 
 AnimatedObject::~AnimatedObject(){
@@ -21,6 +22,8 @@ AnimatedObject::~AnimatedObject(){
 void AnimatedObject::selectSprite(int x, int y){
 	imageSelect->x = x * imageSelect->w;
 	imageSelect->y = y * imageSelect->y;
+	std::cout << "New x: " << imageSelect->x << '\n';
+	std::cout << "New y: " << imageSelect->y << '\n';
 	//SDL_BlitSurface(spritesheet, imageSelect, surf, NULL);
 }
 
