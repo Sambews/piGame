@@ -3,11 +3,12 @@
 #include <string>
 #include <vector>
 //Third party
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 //Includes
 #include "gameObject.cpp"
 #include "rect.cpp"
+#include "animatedObject.cpp"
 
 //Static member of the GameObject class
 std::vector<GameObject*> GameObject::gameObjectList;
@@ -24,14 +25,13 @@ int main(){
 	int grey[4] = {100, 100, 100, 255};
 	
 	//Declaring SDL things
-	SDL_Init(SDL_INIT_EVERYTHING);
-	IMG_Init(IMG_INIT_PNG);
-	SDL_ShowCursor(SDL_DISABLE);
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_HideCursor();
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
-	SDL_CreateWindowAndRenderer(WINDOWWIDTH, WINDOWHEIGHT, 0, &window, &renderer);
+	SDL_CreateWindowAndRenderer("Text.txt", WINDOWWIDTH, WINDOWHEIGHT, 0, &window, &renderer);
 	SDL_Event e;
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
+	const bool* keys = SDL_GetKeyboardState(NULL);
 
 
 	//Creating objects
@@ -39,6 +39,10 @@ int main(){
 	Rectangle enemy(50, 50, 20, 20, renderer, red);
 	GameObject MC(150, 150, 38, 58, renderer, "./images/dressCharacter.png");
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
+	AnimatedObject test(200, 200, 38, 58, "./images/dressCharacterSpriteSheet.png", 4, 8);
+	//GameObject spriteSheet(0, 0, 136, 120, renderer, "./images/dressCharacterSpriteSheet.png");
+	test.setRenderer(renderer);
+	test.selectSprite(3, 3);
 	solidObjects.push_back(&wall);
 
 
@@ -54,13 +58,12 @@ int main(){
 		
 		//Event handler
 		while(SDL_PollEvent(&e)){
-			if(e.type == SDL_QUIT){
+			if(e.type == SDL_EVENT_QUIT){
 				running = false;
-			} else if (e.type == SDL_KEYDOWN){ //Checking key presses
-				switch(e.key.keysym.sym){
-					case SDLK_ESCAPE:
-						running = false;
-						break;
+			} 
+			else if (e.type == SDL_EVENT_KEY_DOWN){ //Checking key presses
+				if(keys[SDL_SCANCODE_ESCAPE]){
+					running = false;
 				}
 			}
 		}
@@ -82,7 +85,6 @@ int main(){
 		} else if(xInput > 0){
 			
 			if(frameCount == 7){
-				std::cout << "Frame count has looped. Walk count is " << walkCount << std::endl;
 				frameCount = 0;
 				
 				if(walkCount == 8){
@@ -95,19 +97,17 @@ int main(){
 			} else {frameCount++;}
 		}
 
-
-
 	
 		//Update MC's position, with added collision detection
 		MC.setY(MC.getY() + yInput);
 		for(GameObject* g : solidObjects){
-			while(SDL_HasIntersection(MC.getRect(), g->getRect())){
+			while(SDL_HasRectIntersectionFloat(MC.getRect(), g->getRect())){
 				MC.setY(MC.getY() - (yInput / PLAYERSPEED));
 			}
 		}
 		MC.setX(MC.getX() + xInput);
 		for(GameObject* g : solidObjects){
-			while(SDL_HasIntersection(MC.getRect(), g->getRect())){
+			while(SDL_HasRectIntersectionFloat(MC.getRect(), g->getRect())){
 				MC.setX(MC.getX() - (xInput / PLAYERSPEED));
 			}
 		}

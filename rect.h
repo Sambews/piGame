@@ -1,7 +1,7 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 
 //This class isn't going to be useful, since rect objects are built into the gameObject class. This is just for testing things. 
@@ -9,7 +9,7 @@
 class Rectangle {
 private:
 	int x, y, height, width;
-	SDL_Rect* rect = new SDL_Rect;
+	SDL_FRect* rect = new SDL_FRect;
 	SDL_Renderer* renderer;
 	int* color = new int;
 
@@ -39,7 +39,7 @@ public:
 	int* getColor(){return color;}
 	void setColor(int* c){color = c;}
 
-	SDL_Rect* getRect(){return rect;}
+	SDL_FRect* getRect(){return rect;}
 
 	//Member functions
 	void draw();

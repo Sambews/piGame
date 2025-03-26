@@ -1,0 +1,76 @@
+g++ main.cpp -L -lSDL3 -lSDL3_image -o prog
+In file included from main.cpp:10:
+rect.cpp: In constructor ‘Rectangle::Rectangle()’:
+rect.cpp:10:18: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::x’ from ‘int’ to ‘float’ [-Wnarrowing]
+   10 |         *rect = {x, y, height, width};
+      |                  ^
+rect.cpp:10:21: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::y’ from ‘int’ to ‘float’ [-Wnarrowing]
+   10 |         *rect = {x, y, height, width};
+      |                     ^
+rect.cpp:10:24: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::height’ from ‘int’ to ‘float’ [-Wnarrowing]
+   10 |         *rect = {x, y, height, width};
+      |                        ^~~~~~
+rect.cpp:10:32: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::width’ from ‘int’ to ‘float’ [-Wnarrowing]
+   10 |         *rect = {x, y, height, width};
+      |                                ^~~~~
+rect.cpp: In constructor ‘Rectangle::Rectangle(int, int, int, int, int*)’:
+rect.cpp:19:18: warning: narrowing conversion of ‘x’ from ‘int’ to ‘float’ [-Wnarrowing]
+   19 |         *rect = {x, y, height, width};
+      |                  ^
+rect.cpp:19:21: warning: narrowing conversion of ‘y’ from ‘int’ to ‘float’ [-Wnarrowing]
+   19 |         *rect = {x, y, height, width};
+      |                     ^
+rect.cpp:19:24: warning: narrowing conversion of ‘height’ from ‘int’ to ‘float’ [-Wnarrowing]
+   19 |         *rect = {x, y, height, width};
+      |                        ^~~~~~
+rect.cpp:19:32: warning: narrowing conversion of ‘width’ from ‘int’ to ‘float’ [-Wnarrowing]
+   19 |         *rect = {x, y, height, width};
+      |                                ^~~~~
+rect.cpp: In constructor ‘Rectangle::Rectangle(int, int, int, int, SDL_Renderer*, int*)’:
+rect.cpp:29:18: warning: narrowing conversion of ‘x’ from ‘int’ to ‘float’ [-Wnarrowing]
+   29 |         *rect = {x, y, height, width};
+      |                  ^
+rect.cpp:29:21: warning: narrowing conversion of ‘y’ from ‘int’ to ‘float’ [-Wnarrowing]
+   29 |         *rect = {x, y, height, width};
+      |                     ^
+rect.cpp:29:24: warning: narrowing conversion of ‘height’ from ‘int’ to ‘float’ [-Wnarrowing]
+   29 |         *rect = {x, y, height, width};
+      |                        ^~~~~~
+rect.cpp:29:32: warning: narrowing conversion of ‘width’ from ‘int’ to ‘float’ [-Wnarrowing]
+   29 |         *rect = {x, y, height, width};
+      |                                ^~~~~
+rect.cpp: In member function ‘void Rectangle::draw()’:
+rect.cpp:37:18: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::x’ from ‘int’ to ‘float’ [-Wnarrowing]
+   37 |         *rect = {x, y, height, width};
+      |                  ^
+rect.cpp:37:21: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::y’ from ‘int’ to ‘float’ [-Wnarrowing]
+   37 |         *rect = {x, y, height, width};
+      |                     ^
+rect.cpp:37:24: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::height’ from ‘int’ to ‘float’ [-Wnarrowing]
+   37 |         *rect = {x, y, height, width};
+      |                        ^~~~~~
+rect.cpp:37:32: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::width’ from ‘int’ to ‘float’ [-Wnarrowing]
+   37 |         *rect = {x, y, height, width};
+      |                                ^~~~~
+main.cpp: In function ‘int main()’:
+main.cpp:104:65: error: cannot convert ‘SDL_FRect*’ to ‘const SDL_Rect*’
+  104 |                         while(SDL_HasRectIntersection(MC.getRect(), g->getRect())){
+      |                                                       ~~~~~~~~~~^~
+      |                                                                 |
+      |                                                                 SDL_FRect*
+In file included from /usr/local/include/SDL3/SDL_surface.h:48,
+                 from /usr/local/include/SDL3/SDL_camera.h:75,
+                 from /usr/local/include/SDL3/SDL.h:41,
+                 from main.cpp:6:
+/usr/local/include/SDL3/SDL_rect.h:224:74: note:   initializing argument 1 of ‘bool SDL_HasRectIntersection(const SDL_Rect*, const SDL_Rect*)’
+  224 | extern SDL_DECLSPEC bool SDLCALL SDL_HasRectIntersection(const SDL_Rect *A, const SDL_Rect *B);
+      |                                                          ~~~~~~~~~~~~~~~~^
+main.cpp:110:65: error: cannot convert ‘SDL_FRect*’ to ‘const SDL_Rect*’
+  110 |                         while(SDL_HasRectIntersection(MC.getRect(), g->getRect())){
+      |                                                       ~~~~~~~~~~^~
+      |                                                                 |
+      |                                                                 SDL_FRect*
+/usr/local/include/SDL3/SDL_rect.h:224:74: note:   initializing argument 1 of ‘bool SDL_HasRectIntersection(const SDL_Rect*, const SDL_Rect*)’
+  224 | extern SDL_DECLSPEC bool SDLCALL SDL_HasRectIntersection(const SDL_Rect *A, const SDL_Rect *B);
+      |                                                          ~~~~~~~~~~~~~~~~^
+make: *** [makefile:2: main] Error 1

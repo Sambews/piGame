@@ -30,7 +30,7 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std
 GameObject::~GameObject(){
 	//35% certain things break if we remove this. Worth testing at some point
 	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(surf);
+	SDL_DestroySurface(surf);
 }
 
 //Functions
@@ -40,13 +40,13 @@ GameObject::~GameObject(){
 void GameObject::setImage(std::string path){
 	imagePath = &path[0];
 	surf = IMG_Load(imagePath);
+	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	updateTexture();
 }
 
 //Draw function updates the rectangle position and loads the texture
 void GameObject::draw(){
-	texture = SDL_CreateTextureFromSurface(renderer, surf);
-	SDL_RenderCopy(renderer, texture, NULL, rect);
+	SDL_RenderTexture(renderer, texture, NULL, rect);
 }
 
 void GameObject::drawAll(){

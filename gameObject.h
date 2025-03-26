@@ -1,14 +1,14 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 #include <string>
 #include <vector>
 
 class GameObject{
 	protected:
 		//Member variables
-		SDL_Rect* rect = new SDL_Rect{0, 0, 32, 32};
+		SDL_FRect* rect = new SDL_FRect{0, 0, 32, 32};
 		
 		SDL_Renderer* renderer = nullptr;
 		char* imagePath = nullptr;
@@ -48,7 +48,7 @@ class GameObject{
 		SDL_Texture* getTexture(){return texture;}
 		void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
 
-		SDL_Rect* getRect(){return rect;}
+		SDL_FRect* getRect(){return rect;}
 		
 		//Functions
 		void draw();
