@@ -39,10 +39,10 @@ int main(){
 	Rectangle enemy(50, 50, 20, 20, renderer, red);
 	GameObject MC(150, 150, 38, 58, renderer, "./images/dressCharacter.png");
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
-	AnimatedObject test(200, 200, 38, 58, "./images/dressCharacterSpriteSheet.png", 4, 8);
-	//GameObject spriteSheet(0, 0, 136, 120, renderer, "./images/dressCharacterSpriteSheet.png");
-	test.setRenderer(renderer);
-	test.selectSprite(3, 3);
+
+	AnimatedObject test(200, 200, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
+	test.selectSprite(0, 0);
+
 	solidObjects.push_back(&wall);
 
 
@@ -112,6 +112,7 @@ int main(){
 			}
 		}
 		
+		
 
 		//Update the red rectangle's position based off of arrow keys
 		enemy.setY(enemy.getY() - ((keys[SDL_SCANCODE_UP]*5) - (keys[SDL_SCANCODE_DOWN]*5)));
@@ -124,7 +125,7 @@ int main(){
 		//Draw the various objects to the screen
 	
 		GameObject::drawAll();
-
+		//test.draw();
 		enemy.draw();
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps

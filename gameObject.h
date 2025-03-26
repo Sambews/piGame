@@ -23,6 +23,7 @@ class GameObject{
 		//Constructors
 		GameObject();
 		GameObject(int, int, int, int);
+		GameObject(int, int, int, int, SDL_Renderer*);
 		GameObject(int, int, int, int, SDL_Renderer*, std::string);
 		~GameObject();
 
@@ -54,7 +55,6 @@ class GameObject{
 		void draw();
 		static void drawAll();
 		void print();
-
 };
 
 

@@ -14,16 +14,25 @@ GameObject::GameObject(int x, int y, int width, int height){
 	GameObject::gameObjectList.push_back(this);
 }
 
+
+GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r){
+	rect->x = x;
+	rect->y = y;
+	rect->w = width;
+	rect->h = height;
+	renderer = r;
+	GameObject::gameObjectList.push_back(this);
+}
+
+
 GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std::string path){
 	rect->x = x;
 	rect->y = y;
 	rect->w = width;
 	rect->h = height;
-	
 	renderer = r;
 	imagePath = &path[0];
 	surf = IMG_Load(imagePath);
-	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	GameObject::gameObjectList.push_back(this);
 }
 //Destructor
@@ -38,15 +47,21 @@ GameObject::~GameObject(){
 //Update the image path and image.
 //Image path may not need to exist. When loading image, maybe automatically append "./images/" and concat ".png" to simplify input?
 void GameObject::setImage(std::string path){
-	imagePath = &path[0];
-	surf = IMG_Load(imagePath);
+	//imagePath = &path[0];
+	surf = IMG_Load(&path[0]);
 	texture = SDL_CreateTextureFromSurface(renderer, surf);
-	updateTexture();
+	float x, y;
+	SDL_GetTextureSize(texture, &x, &y);
 }
 
 //Draw function updates the rectangle position and loads the texture
 void GameObject::draw(){
 	SDL_RenderTexture(renderer, texture, NULL, rect);
+}
+
+void GameObject::print(){
+	float x, y;
+	SDL_GetTextureSize(texture, &x, &y);
 }
 
 void GameObject::drawAll(){
