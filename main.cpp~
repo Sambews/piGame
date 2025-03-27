@@ -91,15 +91,17 @@ int main(){
 		int yInput = (keys[SDL_SCANCODE_S] - keys[SDL_SCANCODE_W]) * PLAYERSPEED;
 
 
-		//Turns character left and right
+		//Sets the orientation of the character
+		if(xInput > 0){
+			MC.setOrientation(RIGHT);
+		} else if(xInput < 0){
+			MC.setOrientation(LEFT);
+		}
+
+
+		//Checks to see if the character is walking or standing still
 		if((xInput != 0) && (MC.getState() == STANDING)){
 			MC.setState(WALKING);
-			if(xInput > 0){
-				MC.setOrientation(RIGHT);
-			} else {
-				MC.setOrientation(LEFT);
-			}
-
 			switch(MC.getOrientation()){
 				case RIGHT:
 					MC.setAnimation(2, 5);
