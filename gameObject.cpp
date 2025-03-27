@@ -31,16 +31,12 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std
 	rect->w = width;
 	rect->h = height;
 	renderer = r;
-	imagePath = &path[0];
-	surf = IMG_Load(imagePath);
-	texture = SDL_CreateTextureFromSurface(renderer, surf);
 	GameObject::gameObjectList.push_back(this);
 }
 //Destructor
 GameObject::~GameObject(){
 	//35% certain things break if we remove this. Worth testing at some point
 	SDL_DestroyTexture(texture);
-	SDL_DestroySurface(surf);
 }
 
 //Functions
@@ -69,4 +65,13 @@ void GameObject::drawAll(){
 	for(GameObject* g : GameObject::gameObjectList){
 		g->draw();
 	}
+}
+
+void GameObject::setSprite(Spritesheet* sheet, int x, int y){
+	int newX = sheet->clip.w * x;
+	int newY = sheet->clip.h * y;
+	sheet->setRect(newX, newY);
+	SDL_SetRenderTarget(renderer, texture);
+	SDL_RenderTexture(renderer, sheet->getTexture(), sheet->getRect(), NULL);
+	SDL_SetRenderTarget(renderer, NULL);
 }

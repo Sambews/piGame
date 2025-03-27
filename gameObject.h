@@ -8,14 +8,11 @@
 class GameObject{
 	protected:
 		//Member variables
-		SDL_FRect* rect = new SDL_FRect{0, 0, 32, 32};
-		
+		SDL_FRect* rect = new SDL_FRect{0, 0, 16, 16};
 		SDL_Renderer* renderer = nullptr;
-		char* imagePath = nullptr;
 
 		//My grasp on surfaces and textures is weak, but youtube tutorials say this is how you load an object
-		SDL_Surface* surf = nullptr;
-		SDL_Texture* texture = nullptr;
+		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_TARGET, rect->w, rect->h);
 
 		static std::vector<GameObject*> gameObjectList;
 
@@ -55,6 +52,7 @@ class GameObject{
 		void draw();
 		static void drawAll();
 		void print();
+		void setSprite(Spritesheet*, int, int);
 };
 
 
