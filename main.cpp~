@@ -24,6 +24,7 @@ std::vector<GameObject*> GameObject::gameObjectList;
 
 
 int main(){
+	std::vector<AnimatedObject*> animatedObjectList;
 	//Declaring variables
 	bool running = true;
 	const int WINDOWWIDTH = 1080;
@@ -33,7 +34,9 @@ int main(){
 	int green[4] = {100, 255, 100, 255};
 	int blue[4] = {100, 100, 255, 255};
 	int grey[4] = {100, 100, 100, 255};
-	
+
+
+
 	//Declaring SDL things
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_HideCursor();
@@ -45,6 +48,13 @@ int main(){
 
 
 	//Creating objects
+	for(int i = 0; i < 10; i++){
+		for(int j = 0; j < 10; j++){
+			AnimatedObject* n = new AnimatedObject(i*32, j*32, 32, 32, renderer, "./images/grassTileSheet.png", 4, 4);
+			animatedObjectList.push_back(n);
+			n->selectSprite(3, 2);
+		}
+	}
 	std::vector<GameObject*> solidObjects;
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
 	solidObjects.push_back(&wall);
@@ -145,6 +155,11 @@ int main(){
 		//Draw the various objects to the screen
 		MC.updateAnimation();	
 		MC.draw();
+		
+		for(AnimatedObject* a : animatedObjectList){
+			a->draw();
+		}
+
 		GameObject::drawAll();
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps
