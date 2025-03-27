@@ -10,8 +10,18 @@
 #include "rect.cpp"
 #include "animatedObject.cpp"
 
+//Macros
+#define LEFT 1
+#define RIGHT 2
+#define UP 3
+#define DOWN 4
+
+#define STANDING 2
+#define WALKING 1
+
 //Static member of the GameObject class
 std::vector<GameObject*> GameObject::gameObjectList;
+
 
 int main(){
 	//Declaring variables
@@ -36,21 +46,21 @@ int main(){
 
 	//Creating objects
 	std::vector<GameObject*> solidObjects;
-	Rectangle enemy(50, 50, 20, 20, renderer, red);
-	GameObject MC(150, 150, 38, 58, renderer, "./images/dressCharacter.png");
 	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
-
-	AnimatedObject test(200, 200, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
-	test.selectSprite(1, 1);
-	test.selectSprite(3, 2);
-	test.selectSprite(5, 3);
-
 	solidObjects.push_back(&wall);
 
-	int frameCount = 0;
+	AnimatedObject MC(150, 150, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
+	MC.setOrientation(RIGHT);
+	MC.setState(STANDING);
+	MC.selectSprite(0, 0);
+	MC.createAnimation(1, 0);
+	MC.createAnimation(1, 1);
+	MC.createAnimation(7, 2);
+	MC.createAnimation(7, 3);
+
+
 	int frameCount2 = 0;
 	int walkCount = 1;
-	int walkCount2 = 1;
 	bool right = true;
 	std::string walkImg = "./images/dressCharacterWalk1.png";
 
@@ -65,8 +75,13 @@ int main(){
 				running = false;
 			} 
 			else if (e.type == SDL_EVENT_KEY_DOWN){ //Checking key presses
-				if(keys[SDL_SCANCODE_ESCAPE]){
-					running = false;
+				switch(e.key.key){
+					case SDLK_ESCAPE:
+						running = false;
+						break;
+					case SDLK_SPACE:
+						std::cout << "Hello world!" << '\n';
+						break;
 				}
 			}
 		}
@@ -77,42 +92,36 @@ int main(){
 
 
 		//Turns character left and right
-		if(xInput == 0){
-			frameCount2 = 0;
-			walkCount = 1;
-			if(right){
-				MC.setImage("./images/dressCharacter.png");
+		if((xInput != 0) && (MC.getState() == STANDING)){
+			MC.setState(WALKING);
+			if(xInput > 0){
+				MC.setOrientation(RIGHT);
 			} else {
-				MC.setImage("./images/dressCharacterL.png");
+				MC.setOrientation(LEFT);
 			}
-		} else if(xInput > 0){
-			if(frameCount2 == 7){
-				frameCount2 = 0;
-				
-				if(walkCount == 8){
-					walkCount = 1;
-				} else {
-					walkCount++;
-				}
-				walkImg = "./images/dressCharacterWalk" + std::to_string(walkCount) + ".png";
-				MC.setImage(walkImg);
-			} else {frameCount2++;}
+
+			switch(MC.getOrientation()){
+				case RIGHT:
+					MC.setAnimation(2, 5);
+					break;
+				case LEFT:
+					MC.setAnimation(3, 5);
+					break;
+			}			
+		}
+		else if((xInput == 0) && (MC.getState() == WALKING)){
+			MC.setState(STANDING);
+			switch(MC.getOrientation()){
+				case RIGHT:
+					MC.setAnimation(0, 30);
+					break;
+				case LEFT:
+					MC.setAnimation(1, 30);
+					break;
+			}
 		}
 
 
-
-		if(frameCount == 7){
-			frameCount = 0;
-				
-			if(walkCount2 == 8){
-				walkCount2 = 1;
-			} else {
-				walkCount2++;
-			}
-			test.selectSprite(walkCount2-1, 3);
-		} else {frameCount++;}
-
-	
 		//Update MC's position, with added collision detection
 		MC.setY(MC.getY() + yInput);
 		for(GameObject* g : solidObjects){
@@ -127,21 +136,14 @@ int main(){
 			}
 		}
 		
-		
-
-		//Update the red rectangle's position based off of arrow keys
-		enemy.setY(enemy.getY() - ((keys[SDL_SCANCODE_UP]*5) - (keys[SDL_SCANCODE_DOWN]*5)));
-		enemy.setX(enemy.getX() + ((keys[SDL_SCANCODE_RIGHT]*5) - (keys[SDL_SCANCODE_LEFT]*5)));
-	
 		//Fill the screen with black
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 	
 		//Draw the various objects to the screen
-	
+		MC.updateAnimation();	
+		MC.draw();
 		GameObject::drawAll();
-		test.draw();
-		enemy.draw();
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps
 		SDL_RenderPresent(renderer);

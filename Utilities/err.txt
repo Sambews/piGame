@@ -1,0 +1,35 @@
+g++ test.cpp -o prog 
+In file included from test.cpp:3:
+linkedList.cpp:4:6: error: ‘template<class T> class LinkedList’ used without template arguments
+    4 | void LinkedList::add(T value){
+      |      ^~~~~~~~~~
+linkedList.cpp: In function ‘void add(T)’:
+linkedList.cpp:6:12: error: ‘tail’ was not declared in this scope
+    6 |         if(tail){
+      |            ^~~~
+linkedList.cpp:8:27: error: ‘head’ was not declared in this scope
+    8 |                 n->next = head;
+      |                           ^~~~
+linkedList.cpp:11:17: error: ‘head’ was not declared in this scope
+   11 |                 head = n;
+      |                 ^~~~
+linkedList.cpp: At global scope:
+linkedList.cpp:19:5: error: ‘template<class T> class LinkedList’ used without template arguments
+   19 | int LinkedList::remove(T target){
+      |     ^~~~~~~~~~
+linkedList.cpp: In function ‘int remove(T)’:
+linkedList.cpp:20:24: error: ‘head’ was not declared in this scope
+   20 |         Node<T>* ptr = head;
+      |                        ^~~~
+linkedList.cpp:33:35: error: ‘tail’ was not declared in this scope
+   33 |                         if(ptr == tail){
+      |                                   ^~~~
+linkedList.cpp: At global scope:
+linkedList.cpp:51:6: error: ‘template<class T> class LinkedList’ used without template arguments
+   51 | void LinkedList::print(){
+      |      ^~~~~~~~~~
+linkedList.cpp: In function ‘void print()’:
+linkedList.cpp:52:24: error: ‘head’ was not declared in this scope
+   52 |         Node<T>* ptr = head;
+      |                        ^~~~
+make: *** [makefile:2: make] Error 1
