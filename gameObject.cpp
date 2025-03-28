@@ -22,6 +22,7 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r){
 	rect->h = height;
 	renderer = r;
 	GameObject::gameObjectList.push_back(this);
+	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_TARGET, rect->w, rect->h);
 }
 
 
@@ -35,30 +36,13 @@ GameObject::GameObject(int x, int y, int width, int height, SDL_Renderer* r, std
 }
 //Destructor
 GameObject::~GameObject(){
-	//35% certain things break if we remove this. Worth testing at some point
 	SDL_DestroyTexture(texture);
 }
 
 //Functions
-
-//Update the image path and image.
-//Image path may not need to exist. When loading image, maybe automatically append "./images/" and concat ".png" to simplify input?
-void GameObject::setImage(std::string path){
-	//imagePath = &path[0];
-	surf = IMG_Load(&path[0]);
-	texture = SDL_CreateTextureFromSurface(renderer, surf);
-	float x, y;
-	SDL_GetTextureSize(texture, &x, &y);
-}
-
-//Draw function updates the rectangle position and loads the texture
 void GameObject::draw(){
+	std::cout << rect->w << ", " << rect->h << '\n';
 	SDL_RenderTexture(renderer, texture, NULL, rect);
-}
-
-void GameObject::print(){
-	float x, y;
-	SDL_GetTextureSize(texture, &x, &y);
 }
 
 void GameObject::drawAll(){
@@ -68,10 +52,11 @@ void GameObject::drawAll(){
 }
 
 void GameObject::setSprite(Spritesheet* sheet, int x, int y){
-	int newX = sheet->clip.w * x;
-	int newY = sheet->clip.h * y;
+	int newX = sheet->getRect()->w * x;
+	int newY = sheet->getRect()->h * y;
 	sheet->setRect(newX, newY);
 	SDL_SetRenderTarget(renderer, texture);
 	SDL_RenderTexture(renderer, sheet->getTexture(), sheet->getRect(), NULL);
 	SDL_SetRenderTarget(renderer, NULL);
+	std::cout << "Changed sprite" << '\n';
 }

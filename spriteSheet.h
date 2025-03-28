@@ -3,20 +3,22 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <string>
+#include <iostream>
 
 class Spritesheet {
     private:
-        SDL_FRect* clip;
-        SDL_Texture* sheet;
+        SDL_FRect* clip = nullptr;
+        SDL_Texture* sheet = nullptr;
 
     public:
-        Spritesheet(std::string path, int cNum, int rNum){
-            
-        }
+        Spritesheet(std::string, int, int, SDL_Renderer*);
+	~Spritesheet(){delete clip;}
         SDL_FRect* getRect(){return clip;}
         void setRect(int x, int y){clip->x = x; clip->y = y;}
 
-        void getTexture(){return sheet;}
-
+        SDL_Texture* getTexture(){return sheet;}
+	
+	void draw();
 };
 #endif

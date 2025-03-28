@@ -4,6 +4,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include <vector>
+#include "spriteSheet.h"
 
 class GameObject{
 	protected:
@@ -12,8 +13,7 @@ class GameObject{
 		SDL_Renderer* renderer = nullptr;
 
 		//My grasp on surfaces and textures is weak, but youtube tutorials say this is how you load an object
-		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_TARGET, rect->w, rect->h);
-
+		SDL_Texture* texture = nullptr;
 		static std::vector<GameObject*> gameObjectList;
 
 	public:
@@ -37,22 +37,18 @@ class GameObject{
 		int getHeight(){return rect->h;}
 		void setHeight(int h){rect->h = h;}
 
-		char* getImage(){return imagePath;}
-		void setImage(std::string);
-
 		SDL_Renderer* getRenderer(){return renderer;}
 		void setRenderer(SDL_Renderer* r){renderer = r;}
-
+		
 		SDL_Texture* getTexture(){return texture;}
-		void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
 
 		SDL_FRect* getRect(){return rect;}
 		
 		//Functions
 		void draw();
 		static void drawAll();
-		void print();
 		void setSprite(Spritesheet*, int, int);
+		void print();
 };
 
 

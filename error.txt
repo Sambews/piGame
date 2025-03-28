@@ -1,4 +1,51 @@
 g++ main.cpp -o prog `pkg-config --libs --cflags sdl3` `pkg-config --libs --cflags sdl3-image` 
+In file included from gameObject.h:7,
+                 from gameObject.cpp:1,
+                 from main.cpp:9:
+spriteSheet.h: In member function ‘SDL_Renderer* Spritesheet::getTexture()’:
+spriteSheet.h:19:43: error: cannot convert ‘SDL_Texture*’ to ‘SDL_Renderer*’ in return
+   19 |         SDL_Renderer* getTexture(){return sheet;}
+      |                                           ^~~~~
+      |                                           |
+      |                                           SDL_Texture*
+gameObject.h: In member function ‘void GameObject::updateTexture()’:
+gameObject.h:45:87: error: ‘surf’ was not declared in this scope
+   45 |                 void updateTexture(){texture = SDL_CreateTextureFromSurface(renderer, surf);}
+      |                                                                                       ^~~~
+gameObject.cpp: In member function ‘void GameObject::setSprite(Spritesheet*, int, int)’:
+gameObject.cpp:53:27: error: ‘SDL_FRect* Spritesheet::clip’ is private within this context
+   53 |         int newX = sheet->clip->w * x;
+      |                           ^~~~
+spriteSheet.h:10:20: note: declared private here
+   10 |         SDL_FRect* clip = nullptr;
+      |                    ^~~~
+gameObject.cpp:53:27: note: field ‘SDL_FRect* Spritesheet::clip’ can be accessed via ‘SDL_FRect* Spritesheet::getRect()’
+   53 |         int newX = sheet->clip->w * x;
+      |                           ^~~~
+      |                           getRect()
+gameObject.cpp:54:27: error: ‘SDL_FRect* Spritesheet::clip’ is private within this context
+   54 |         int newY = sheet->clip->h * y;
+      |                           ^~~~
+spriteSheet.h:10:20: note: declared private here
+   10 |         SDL_FRect* clip = nullptr;
+      |                    ^~~~
+gameObject.cpp:54:27: note: field ‘SDL_FRect* Spritesheet::clip’ can be accessed via ‘SDL_FRect* Spritesheet::getRect()’
+   54 |         int newY = sheet->clip->h * y;
+      |                           ^~~~
+      |                           getRect()
+gameObject.cpp:57:54: error: cannot convert ‘SDL_Renderer*’ to ‘SDL_Texture*’
+   57 |         SDL_RenderTexture(renderer, sheet->getTexture(), sheet->getRect(), NULL);
+      |                                     ~~~~~~~~~~~~~~~~~^~
+      |                                                      |
+      |                                                      SDL_Renderer*
+In file included from /usr/local/include/SDL3/SDL.h:75,
+                 from main.cpp:6:
+/usr/local/include/SDL3/SDL_render.h:2115:89: note:   initializing argument 2 of ‘bool SDL_RenderTexture(SDL_Renderer*, SDL_Texture*, const SDL_FRect*, const SDL_FRect*)’
+ 2115 | extern SDL_DECLSPEC bool SDLCALL SDL_RenderTexture(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_FRect *srcrect, const SDL_FRect *dstrect);
+      |                                                                            ~~~~~~~~~~~~~^~~~~~~
+/usr/local/include/SDL3/SDL_render.h:120:16: note: class type ‘SDL_Renderer’ is incomplete
+  120 | typedef struct SDL_Renderer SDL_Renderer;
+      |                ^~~~~~~~~~~~
 In file included from main.cpp:10:
 rect.cpp: In constructor ‘Rectangle::Rectangle()’:
 rect.cpp:10:18: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::x’ from ‘int’ to ‘float’ [-Wnarrowing]
@@ -52,93 +99,4 @@ rect.cpp:37:24: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangl
 rect.cpp:37:32: warning: narrowing conversion of ‘((Rectangle*)this)->Rectangle::width’ from ‘int’ to ‘float’ [-Wnarrowing]
    37 |         *rect = {x, y, height, width};
       |                                ^~~~~
-In file included from /usr/include/aarch64-linux-gnu/c++/12/bits/c++allocator.h:33,
-                 from /usr/include/c++/12/bits/allocator.h:46,
-                 from /usr/include/c++/12/string:41,
-                 from /usr/include/c++/12/bits/locale_classes.h:40,
-                 from /usr/include/c++/12/bits/ios_base.h:41,
-                 from /usr/include/c++/12/ios:42,
-                 from /usr/include/c++/12/ostream:38,
-                 from /usr/include/c++/12/iostream:39,
-                 from main.cpp:2:
-/usr/include/c++/12/bits/new_allocator.h: In instantiation of ‘void std::__new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::vector<location*>; _Args = {std::vector<location*, std::allocator<location*> >*}; _Tp = std::vector<location*>]’:
-/usr/include/c++/12/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(allocator_type&, _Up*, _Args&& ...) [with _Up = std::vector<location*>; _Args = {std::vector<location*, std::allocator<location*> >*}; _Tp = std::vector<location*>; allocator_type = std::allocator<std::vector<location*> >]’
-/usr/include/c++/12/bits/vector.tcc:117:30:   required from ‘std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::emplace_back(_Args&& ...) [with _Args = {std::vector<location*, std::allocator<location*> >*}; _Tp = std::vector<location*>; _Alloc = std::allocator<std::vector<location*> >; reference = std::vector<location*>&]’
-animatedObject.cpp:43:25:   required from here
-/usr/include/c++/12/bits/new_allocator.h:175:11: error: no matching function for call to ‘std::vector<location*>::vector(std::vector<location*>*)’
-  175 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from /usr/include/c++/12/vector:64,
-                 from main.cpp:4:
-/usr/include/c++/12/bits/stl_vector.h:702:9: note: candidate: ‘template<class _InputIterator, class> std::vector<_Tp, _Alloc>::vector(_InputIterator, _InputIterator, const allocator_type&) [with <template-parameter-2-2> = _InputIterator; _Tp = location*; _Alloc = std::allocator<location*>]’
-  702 |         vector(_InputIterator __first, _InputIterator __last,
-      |         ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:702:9: note:   template argument deduction/substitution failed:
-/usr/include/c++/12/bits/new_allocator.h:175:11: note:   candidate expects 3 arguments, 1 provided
-  175 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/usr/include/c++/12/bits/stl_vector.h:673:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(std::initializer_list<_Tp>, const allocator_type&) [with _Tp = location*; _Alloc = std::allocator<location*>; allocator_type = std::allocator<location*>]’
-  673 |       vector(initializer_list<value_type> __l,
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:673:43: note:   no known conversion for argument 1 from ‘std::vector<location*>*’ to ‘std::initializer_list<location*>’
-  673 |       vector(initializer_list<value_type> __l,
-      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-/usr/include/c++/12/bits/stl_vector.h:654:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>&&, std::__type_identity_t<_Alloc>&) [with _Tp = location*; _Alloc = std::allocator<location*>; std::__type_identity_t<_Alloc> = std::allocator<location*>]’
-  654 |       vector(vector&& __rv, const __type_identity_t<allocator_type>& __m)
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:654:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/12/bits/stl_vector.h:635:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>&&, const allocator_type&, std::false_type) [with _Tp = location*; _Alloc = std::allocator<location*>; allocator_type = std::allocator<location*>; std::false_type = std::integral_constant<bool, false>]’
-  635 |       vector(vector&& __rv, const allocator_type& __m, false_type)
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:635:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/12/bits/stl_vector.h:630:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>&&, const allocator_type&, std::true_type) [with _Tp = location*; _Alloc = std::allocator<location*>; allocator_type = std::allocator<location*>; std::true_type = std::integral_constant<bool, true>]’
-  630 |       vector(vector&& __rv, const allocator_type& __m, true_type) noexcept
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:630:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/12/bits/stl_vector.h:619:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&, std::__type_identity_t<_Alloc>&) [with _Tp = location*; _Alloc = std::allocator<location*>; std::__type_identity_t<_Alloc> = std::allocator<location*>]’
-  619 |       vector(const vector& __x, const __type_identity_t<allocator_type>& __a)
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:619:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/12/bits/stl_vector.h:615:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>&&) [with _Tp = location*; _Alloc = std::allocator<location*>]’
-  615 |       vector(vector&&) noexcept = default;
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:615:14: note:   no known conversion for argument 1 from ‘std::vector<location*>*’ to ‘std::vector<location*>&&’
-  615 |       vector(vector&&) noexcept = default;
-      |              ^~~~~~~~
-/usr/include/c++/12/bits/stl_vector.h:596:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = location*; _Alloc = std::allocator<location*>]’
-  596 |       vector(const vector& __x)
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:596:28: note:   no known conversion for argument 1 from ‘std::vector<location*>*’ to ‘const std::vector<location*>&’
-  596 |       vector(const vector& __x)
-      |              ~~~~~~~~~~~~~~^~~
-/usr/include/c++/12/bits/stl_vector.h:564:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(size_type, const value_type&, const allocator_type&) [with _Tp = location*; _Alloc = std::allocator<location*>; size_type = long unsigned int; value_type = location*; allocator_type = std::allocator<location*>]’
-  564 |       vector(size_type __n, const value_type& __value,
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:564:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/12/bits/stl_vector.h:551:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(size_type, const allocator_type&) [with _Tp = location*; _Alloc = std::allocator<location*>; size_type = long unsigned int; allocator_type = std::allocator<location*>]’ (near match)
-  551 |       vector(size_type __n, const allocator_type& __a = allocator_type())
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:551:7: note:   conversion of argument 1 would be ill-formed:
-/usr/include/c++/12/bits/new_allocator.h:175:11: error: invalid conversion from ‘std::vector<location*>*’ to ‘std::vector<location*>::size_type’ {aka ‘long unsigned int’} [-fpermissive]
-  175 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |           |
-      |           std::vector<location*>*
-/usr/include/c++/12/bits/stl_vector.h:537:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector(const allocator_type&) [with _Tp = location*; _Alloc = std::allocator<location*>; allocator_type = std::allocator<location*>]’
-  537 |       vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:537:36: note:   no known conversion for argument 1 from ‘std::vector<location*>*’ to ‘const std::vector<location*>::allocator_type&’ {aka ‘const std::allocator<location*>&’}
-  537 |       vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
-      |              ~~~~~~~~~~~~~~~~~~~~~~^~~
-/usr/include/c++/12/bits/stl_vector.h:526:7: note: candidate: ‘std::vector<_Tp, _Alloc>::vector() [with _Tp = location*; _Alloc = std::allocator<location*>]’
-  526 |       vector() = default;
-      |       ^~~~~~
-/usr/include/c++/12/bits/stl_vector.h:526:7: note:   candidate expects 0 arguments, 1 provided
-/usr/include/c++/12/bits/new_allocator.h: In instantiation of ‘void std::__new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = location*; _Args = {location&}; _Tp = location*]’:
-/usr/include/c++/12/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(allocator_type&, _Up*, _Args&& ...) [with _Up = location*; _Args = {location&}; _Tp = location*; allocator_type = std::allocator<location*>]’
-/usr/include/c++/12/bits/vector.tcc:117:30:   required from ‘std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::emplace_back(_Args&& ...) [with _Args = {location&}; _Tp = location*; _Alloc = std::allocator<location*>; reference = location*&]’
-animatedObject.cpp:48:33:   required from here
-/usr/include/c++/12/bits/new_allocator.h:175:11: error: cannot convert ‘location’ to ‘location*’ in initialization
-  175 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make: *** [makefile:2: main] Error 1

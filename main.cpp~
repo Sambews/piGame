@@ -7,8 +7,8 @@
 #include <SDL3_image/SDL_image.h>
 //Includes
 #include "gameObject.cpp"
-#include "rect.cpp"
 #include "animatedObject.cpp"
+#include "spriteSheet.cpp"
 
 //Macros
 #define LEFT 1
@@ -36,7 +36,6 @@ int main(){
 	int grey[4] = {100, 100, 100, 255};
 
 
-
 	//Declaring SDL things
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_HideCursor();
@@ -46,6 +45,7 @@ int main(){
 	SDL_Event e;
 	const bool* keys = SDL_GetKeyboardState(NULL);
 
+	Spritesheet dressSheet("./images/dressCharacterSpriteSheet.png", 8, 4, renderer);
 
 	//Creating objects
 	for(int i = 0; i < 10; i++){
@@ -56,8 +56,6 @@ int main(){
 		}
 	}
 	std::vector<GameObject*> solidObjects;
-	GameObject wall(300, 300, 32, 32, renderer, "./images/wallBaseUR.png");
-	solidObjects.push_back(&wall);
 
 	AnimatedObject MC(150, 150, 38, 58, renderer, "./images/dressCharacterSpriteSheet.png", 4, 8);
 	MC.setOrientation(RIGHT);
@@ -68,13 +66,8 @@ int main(){
 	MC.createAnimation(7, 2);
 	MC.createAnimation(7, 3);
 
-
-	int frameCount2 = 0;
-	int walkCount = 1;
-	bool right = true;
-	std::string walkImg = "./images/dressCharacterWalk1.png";
-
-
+	GameObject testChar(500, 500, 17, 30, renderer);
+	testChar.setSprite(&dressSheet, 0, 0);
 	//Main game loop
 	while(running){
 		SDL_PumpEvents();
@@ -153,19 +146,20 @@ int main(){
 		SDL_RenderClear(renderer);
 	
 		//Draw the various objects to the screen
-		MC.updateAnimation();	
-		MC.draw();
 		
 		for(AnimatedObject* a : animatedObjectList){
 			a->draw();
 		}
 
+		MC.updateAnimation();	
+
+
 		GameObject::drawAll();
+		MC.draw();
 
 		//Displays the renderer, delays 16 milliseconds for 60 fps
 		SDL_RenderPresent(renderer);
 		SDL_Delay(16);
 	}
-
 	return 0;
 }
